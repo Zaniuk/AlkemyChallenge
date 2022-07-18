@@ -6,7 +6,9 @@ const router = require('express').Router()
 
 const DB_URL = process.env.DB_URL
 
-
+mongoose.connect(DB_URL, () => {
+    console.log('Connected from operations')
+})
 router.post('/', async( req, res ) =>{
     
     const {concept, amount, type, user} = req.body
@@ -35,7 +37,7 @@ router.post('/', async( req, res ) =>{
  router.get('/' , async(req, res)=>{
     try {
         const {user} = req.body
-        const opList = await Operation.find({user: user}).sort({date: -1})
+        const opList = await Operation.find({user: user})
         res.send(opList)    
     } catch (error) {
         if(error.path === 'user'){

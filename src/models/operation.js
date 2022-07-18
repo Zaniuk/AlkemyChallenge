@@ -17,8 +17,12 @@ const operationSchema = new mongoose.Schema({
         type: String,
         enum: ['income', 'outcome'],
         required: true
+    },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
     }
 })
 
-const Operation = mongoose.Model('Operation', operationSchema)
+const Operation = mongoose.model('Operation', operationSchema)
 module.exports = Operation

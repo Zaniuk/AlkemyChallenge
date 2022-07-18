@@ -1,13 +1,6 @@
-const mongoose = require('mongoose')
 
 const router = require('express').Router()
 const User = require('../models/user')
-const DB_URL = process.env.DB_URL
-
-
-mongoose.connect(DB_URL, ()=> {
-    console.log('DB is connected')
-})
 
 
 router.post('/', async( req, res ) =>{

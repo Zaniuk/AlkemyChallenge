@@ -36,9 +36,7 @@ router.post('/', async( req, res ) =>{
  router.get('/' , cors() , async(req, res)=>{
     const user = await req.headers['user']
     try {
-        
         const opList = await Operation.find({user: user})
-        res.statusCode(200)
         res.set({
             "Access-Control-Allow-Headers": '*'
         })

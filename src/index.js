@@ -14,6 +14,6 @@ app.get('/', (_req, res) => {
 app.use('/login', loginRoute)
 app.use('/register', registerRoute)
 app.use('/operations', operationsRoute)
-app.listen(3000, ()=>{
+app.listen(PORT, ()=>{
     console.log('Connected!')
 })

@@ -1,6 +1,5 @@
 const mongoose = require('mongoose')
 const Operation = require('../models/operation')
-const User = require('../models/user')
 
 const router = require('express').Router()
 
@@ -35,9 +34,11 @@ router.post('/', async( req, res ) =>{
 
 
  router.get('/' , async(req, res)=>{
+    const user = await req.headers['user']
     try {
-        const {user} = req.body
+        
         const opList = await Operation.find({user: user})
+        
         res.send(opList)    
     } catch (error) {
         if(error.path === 'user'){

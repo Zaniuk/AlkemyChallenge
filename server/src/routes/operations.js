@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const Operation = require('../models/operation')
 
 const router = require('express').Router()
-
+const cors = require('cors')
 const DB_URL = process.env.DB_URL
 
 mongoose.connect(DB_URL, () => {
@@ -33,12 +33,15 @@ router.post('/', async( req, res ) =>{
  })
 
 
- router.get('/' , async(req, res)=>{
+ router.get('/' , cors() , async(req, res)=>{
     const user = await req.headers['user']
     try {
         
         const opList = await Operation.find({user: user})
-        
+        res.statusCode(200)
+        res.set({
+            "Access-Control-Allow-Headers": '*'
+        })
         res.send(opList)    
     } catch (error) {
         if(error.path === 'user'){

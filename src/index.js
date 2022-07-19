@@ -5,7 +5,7 @@ const app = express();
 const loginRoute = require('./routes/login')
 const registerRoute = require('./routes/register')
 const operationsRoute = require('./routes/operations')
-
+const PORT = process.env.PORT || 80
 app.use(bodyParser.json())
 
 app.get('/', (_req, res) => {

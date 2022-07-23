@@ -1,10 +1,23 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
 <script>
-const options = {method: 'GET', headers: {user: '62d34380b3954d8270d05ea2'}};
+// @ts-nocheck
+import Table from '../components/Home/Table/Table.svelte';
+import Welcome from '../components/Home/Welcome/Welcome.svelte';
+import { goto } from '$app/navigation';
 
-fetch('http://localhost/operations', options)
-  .then(response => response.json())
-  .then(response => console.log(response))
-  .catch(err => console.error(err));
+import { onMount } from 'svelte';
+
+onMount(async()=>{
+
+
+  //DONT forget the negation, this is only for test and mocking purposes
+  if(sessionStorage.getItem('user-token')){
+    goto('/login')
+  }else{
+    // console.log( await getData())  
+  }
+})
+
 </script>
+
+<Welcome/>
+<Table/>

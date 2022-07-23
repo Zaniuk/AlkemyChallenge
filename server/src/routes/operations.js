@@ -51,12 +51,24 @@ router.post('/', async( req, res ) =>{
     }
 
  })
+ router.get('/:id' , cors() , async(req, res)=>{
+    const id = await req.params['id']
+    try{
+        const operation = await Operation.findById(id)
+
+        res.send(operation)
+    }catch(error){
+        res.send(error)
+    }
+ })
 
 
 router.put('/', async (req, res) => {
     const {id, data} = req.body
     try {
-        if(!data.type){
+        const oldOperation = await Operation.findById(id)
+        if(data.type){
+            data.type = oldOperation.type
             const operation = await Operation.updateOne({"_id": id}, data)
             res.send(operation)
         }else{

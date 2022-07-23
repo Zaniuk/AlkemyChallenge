@@ -1,6 +1,5 @@
 export const removeOne = async(id) => {
-    const options = {method: 'DELETE', headers: {'Content-Type': 'application/json'}, body: 'false'};
-
-    const response = await fetch(`http://localhost/operations/${id}`, options).then(response => response.json())
+    const options = {method: 'DELETE'};
+    const response = await fetch(`http://localhost/operations/${id}`, options)
     return response
 }

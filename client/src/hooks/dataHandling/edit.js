@@ -2,17 +2,15 @@ export const convertDate = (date) => {
     return `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`
 }
 
-export const editOperation = ({id, date, concept, amout}) => {
-    const data = {id, date, concept, amout}
-    const bodyData = Object.keys(data).forEach(key => data[key] === undefined && delete data[key])
+export const editOperation = async({id, date, concept, amount}) => {
+    const rawData = {date, concept, amount}
+    const data = JSON.stringify(rawData)
     const options = {
         method: 'PUT',
         headers: {'Content-Type': 'application/json'},
-        body: `{"id":"${id}","data":${bodyData}}`
+        body: `{"id":"${id}","data":${data}}`
       };
       
-      fetch('http://localhost/operations', options)
-        .then(response => response.json())
-        .then(response => console.log(response))
-        .catch(err => console.error(err));
+      const response = await fetch('http://localhost/operations', options).then(response => response.json())
+      return response
 }

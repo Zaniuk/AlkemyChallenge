@@ -2,8 +2,10 @@
     import { page } from '$app/stores';
     import {setItem} from '../../hooks/store'
     import {getOne} from '../../hooks/dataHandling/getOne'
-    import {convertDate} from '../../hooks/dataHandling/edit'
-
+    import {convertDate, editOperation} from '../../hooks/dataHandling/edit'
+    import { goto } from '$app/navigation';
+    
+    const id = $page.params.id
     const operation = async() =>{
         //console.log(await getOne($page.params.id))
         const operationData = await getOne($page.params.id)
@@ -12,11 +14,25 @@
         }else{
             //console.log(operationData)
             operationData.parsedDate = convertDate(new Date(operationData.date))
-            console.log(operationData)
             return operationData
         }
     }
     setItem($page.params.id)
+
+    const test = async(e) => {
+        e.preventDefault()
+        const date = new Date(document.getElementById('date').value)
+        const concept = document.getElementById('select').value
+        const amount = document.getElementById('amount').value        
+        if(!date || !concept || !amount){
+            console.log('error')
+        }else{
+            const response = await editOperation({id, date, concept, amount})
+            if(response.acknowledged === true){
+                goto('/')
+            }
+        }
+    }
 </script>
 
 
@@ -25,7 +41,7 @@
 
 <form>
     <label>
-        <input type="date" value={operationData.parsedDate}>
+        <input type="date" id="date">
     </label>
     <label>
         <select name="" id="select">
@@ -39,8 +55,10 @@
         </select>
     </label>
     <label>
-        <input type="text" value={operationData.amount}>
+        <input type="text" id="amount" value={operationData.amount}>
     </label>
-    <input type="submit" value="Modificar">
+    <input on:click={test} type="submit" id="submit" value="Modificar">
 </form>
 {/await}
+
+

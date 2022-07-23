@@ -62,7 +62,15 @@ router.post('/', async( req, res ) =>{
     }
  })
 
-
+ router.delete('/:id' , cors() , async(req, res)=>{
+    const id = await req.params['id']
+    try{
+        const operation = await Operation.findByIdAndDelete(id)
+        res.send(operation)
+    }catch(error){
+        res.send(error)
+    }
+ })
 router.put('/', async (req, res) => {
     const {id, data} = req.body
     try {

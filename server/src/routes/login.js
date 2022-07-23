@@ -7,7 +7,6 @@ router.post('/',async (req, res) =>{
     if(user.email === request.email && user.password === request.password){
         
        
-        // const list = await Operation.find({user: user.id})
         // Horrendous approach, NEVER send this decrypted, this is only for testing and mock purposes
         res.set({
             'user-token' : user._id

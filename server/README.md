@@ -8,12 +8,12 @@ const options = {
   body: '{"user":<user _id>}'
 };
 
-fetch('http://localhost:3000/operations', options)
+fetch('http://localhost/operations', options)
   .then(response => response.json())
   .then(response => console.log(response))
   .catch(err => console.error(err));
-/*
-It returns: 
+
+//It returns: 
 [
     {
         "_id": "...",
@@ -25,7 +25,7 @@ It returns:
 		"__v": 0
     }
 ] 
-*/
+
 ```
 # Getting the user-token:
 
@@ -38,12 +38,12 @@ const options = {
   body: '{"email":"...","password":"..."}'
 };
 
-fetch('http://localhost:3000/login', options)
+fetch('http://localhost/login', options)
   .then(response => response.json())
   .then(response => console.log(response))
   .catch(err => console.error(err));
 
-  //it returns the user token in a header
+  //it returns the user token in response header
 ```
 # Register a new user: 
 
@@ -56,22 +56,20 @@ const options = {
   body: '{"username":"geronimomw2","email":"geroza49@gmail.com","password":"callofdutymw3"}'
 };
 
-fetch('http://localhost:3000/register', options)
+fetch('http://localhost/register', options)
   .then(response => response.json())
   .then(response => console.log(response))
   .catch(err => console.error(err));
 
-  /*
-  It returns a object if sucessfully:
+  
+  //It returns a object if sucessfully:
 
     {
 	    "message": "User created sucessfully"
     }
-Or a message like this if the user with username or email is already used:
+//Or a message like this if the user with username or email is already used:
 
 {
 	"message": "username already exists"
 }
-
-  */
 ```

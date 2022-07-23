@@ -67,14 +67,9 @@ router.put('/', async (req, res) => {
     const {id, data} = req.body
     try {
         const oldOperation = await Operation.findById(id)
-        if(data.type){
             data.type = oldOperation.type
             const operation = await Operation.updateOne({"_id": id}, data)
             res.send(operation)
-        }else{
-            res.send({error: "you cant change type of operation"});
-        }
-        
     } catch (error) {
         console.log(error)
         res.send(error)

@@ -1,0 +1,21 @@
+.error-component{
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    height: 100vh;
+    text-align: center;
+}
+.error-img{
+    height: 200px;
+}
+.error-img-container{
+    display: flex;
+    justify-content: center;
+}
+.button-container{
+    display: flex;
+    justify-content: center;
+}
+.button-container button{
+    width: max-content;
+}

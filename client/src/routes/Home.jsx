@@ -1,5 +1,3 @@
-
-import '../App.css'
 import Table from '../components/Dashboard/Table/Table'
 import Balance from '../components/Dashboard/Balance/Balance'
 

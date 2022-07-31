@@ -9,7 +9,7 @@ export default function TableItem({operation}) {
             <td>{operation.type}</td>
             <td>{operation.concept}</td>  
             <td>{operation.amount}</td>
-            <td><a href={`edit/${operation._id}`}><button>Editar</button></a><button className='delete-button'>Eliminar</button></td>
+            <td><a href={`edit/${operation._id}&${operation.type}`}><button>Editar</button></a><button className='delete-button'>Eliminar</button></td>
         </tr>
       )
   }

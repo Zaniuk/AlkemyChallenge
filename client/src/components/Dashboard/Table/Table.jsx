@@ -19,7 +19,7 @@ export default function Table() {
                     <th>Tipo</th>
                     <th>Concepto</th>
                     <th>Monto</th>
-                    <th><div className='add-container'><button className='add-operation'>+</button></div></th>
+                    <th><div className='add-container'><a href="/create"><button className='add-operation'>+</button></a></div></th>
                 </tr>
             </thead>
             <tbody>

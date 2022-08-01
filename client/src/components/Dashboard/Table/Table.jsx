@@ -12,25 +12,27 @@ export default function Table() {
   return (
     <section>
         <h2 id='table-title'>Últimas operaciones realizadas</h2>
-        <table role="grid">
-            <thead>
-                <tr>
-                    <th>Fecha</th>
-                    <th>Tipo</th>
-                    <th>Concepto</th>
-                    <th>Monto</th>
-                    <th><div className='add-container'><a href="/create"><button className='add-operation'>+</button></a></div></th>
-                </tr>
-            </thead>
-            <tbody>
-            {
-                operations.map((operation) => {
-                    return <TableItem key={operation._id} operation={operation}/>
-                })
-            }
-            </tbody>
-        
-        </table>
+        <figure>
+            <table role="grid">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Tipo</th>
+                        <th>Concepto</th>
+                        <th>Monto</th>
+                        <th><div className='add-container'><a href="/create"><button className='add-operation'>+</button></a></div></th>
+                    </tr>
+                </thead>
+                <tbody>
+                {
+                    operations.map((operation) => {
+                        return <TableItem key={operation._id} operation={operation}/>
+                    })
+                }
+                </tbody>
+            
+            </table>
+        </figure>
     </section>
   )
 }

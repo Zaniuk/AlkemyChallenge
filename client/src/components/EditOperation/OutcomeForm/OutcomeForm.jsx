@@ -21,9 +21,10 @@ export default function OutcomeForm({id}) {
     <form onSubmit={e => {
         e.preventDefault()
         updateOne({id, date, concept, amount}).then(res =>{
-            if(res.acknowledged === true){
+            if(res.acknowledged === true && res.modifiedCount === 1){
                 window.location.href = '/sucess'
             }
+            console.log(res)
         })
     }}>
       <label>

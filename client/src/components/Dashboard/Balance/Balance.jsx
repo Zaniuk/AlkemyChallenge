@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import Chart from './Chart/Chart'
+import ChartComponent from './Chart/ChartComponent'
 import './Balance.css'
 import { getBalance } from '../../../helpers/helpers'
 
@@ -14,7 +14,7 @@ export default function Balance() {
             <h1>Hola, <span className="color-primary">Geronimo</span></h1>
             <h2>Tu balance es: ${balance} </h2>
         </div>
-        <Chart/>
+        <ChartComponent/>
     </section>
   )
 }

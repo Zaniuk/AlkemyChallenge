@@ -1,18 +1,21 @@
 import 'dotenv/config'
 const PORT = process.env.PORT
 import express from 'express'
-
+import operationsRoute from './routes/operations.route.js'
 import { sequelize } from './database/database.js'
-
+import './models/User.js'
+import  './models/Operation.js'
 const app = express()
+
+
 app.get('/', async(req, res) => {
   res.send('Hello World!')
-  try {
-    await sequelize.authenticate();
-    console.log('Connection has been established successfully.');
-  } catch (error) {
-    console.error('Unable to connect to the database:', error);
-  }
+  // try {
+  //   await sequelize.sync({force: true})
+  //   console.log('Connection has been established successfully.');
+  // } catch (error) {
+  //   console.error('Unable to connect to the database:', error);
+  // }
 })
 
 app.listen(PORT, () => {

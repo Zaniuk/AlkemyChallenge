@@ -4,7 +4,6 @@
   "description": "For getting operations for a given user, you need to pass the _id of the document of the user what are you asking for:\r ```js",
   "main": "index.js",
   "type": "module",
-  
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon src/index.js",
@@ -19,7 +18,8 @@
     "express": "^4.18.1",
     "pg": "^8.7.3",
     "pg-hstore": "^2.3.4",
-    "sequelize": "^6.21.3"
+    "sequelize": "^6.21.3",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "nodemon": "^2.0.19"

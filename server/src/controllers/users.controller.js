@@ -1,9 +1,18 @@
 import { User } from "../models/User.js"
-import { v1 as uuidv1 } from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 import { Op } from "sequelize";
 
-export const getUser = (req, res) => {
-    res.send('Getting Operations')
+
+export const getUser = async (req, res) => {
+    const {email, password} = req.body
+    const user = await User.findOne({
+        email, password
+    })
+    if(user){
+        res.send({token: user.id})
+    }else{
+        res.send({error: 'check your email or password'})
+    }
 }
 
 export const creeateUser = async (req, res) => {
@@ -14,9 +23,9 @@ export const creeateUser = async (req, res) => {
                 [Op.or]: [{ email: email }, { username: username }]
             }
         })
-    if (validations === []) {
+    if (validations.length == 0) {
         const newUser = await User.create({
-            id: uuidv1(),
+            id: uuidv4(),
             username,
             email,
             password,

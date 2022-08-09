@@ -8,7 +8,7 @@ router.get('/operations/:id', getOperationById)
 
 router.post('/operations', createOperation)
 
-router.put('/operations/:id', updateOperation)
+router.put('/operations/', updateOperation)
 
 router.delete('/operations/:id', deleteOperation)
 

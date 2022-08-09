@@ -35,8 +35,21 @@ export const createOperation = async(req, res) => {
     }
 }
 
-export const updateOperation = (req, res) => {
-    res.send('updating operation')
+export const updateOperation = async(req, res) => {
+    const {id, data} = req.body
+    const {amount, concept} = data
+    if(data){
+        const operation = await Operation.findOne({
+            id: id
+        })
+        const newOperation = await operation.set({
+            amount, 
+            concept
+        }).save()
+        res.send(newOperation)
+
+    }
+
 }
 
 export const deleteOperation = (req, res) => {

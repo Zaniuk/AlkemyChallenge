@@ -13,9 +13,6 @@ export const getOperations = async (req, res) => {
     } else {
         res.send({ error: 'This user has not operations yet' })
     }
-
-
-
 }
 
 export const createOperation = async (req, res) => {
@@ -47,7 +44,15 @@ export const updateOperation = async (req, res) => {
             }, {
                 where: { userId: token, id: id }
             })
-            res.send(operation)
+            if (operation[0] === 1) {
+                res.send({
+                    message: 'Operation updated sucessfully'
+                })
+            } else {
+                res.send({
+                    error: 'Can not update operation'
+                })
+            }
         } catch (error) {
             res.send({ error })
         }

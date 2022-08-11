@@ -15,11 +15,10 @@ export default function SelectConcept({ setConcept, type, concept }) {
         return (
             <label>
                 <span>Operation concept</span>
-                <select name="concept" id="concept" defaultValue={'Taxes'} onChange={e => setConcept(e.target.value)}>
-                    
-                    <option value="Taxes">Taxes</option>
-                    <option value="Food">Food</option>
-                    <option value="Games">Games</option>
+                <select name="concept" id="concept" defaultValue={'Others'} onChange={e => setConcept(e.target.value)}>
+                    <option value="Services">Services</option>
+                    <option value="Market">Market</option>
+                    <option value="Shopping">Shopping</option>
                     <option value="Entertainment">Entertainment</option>
                 </select>
             </label>

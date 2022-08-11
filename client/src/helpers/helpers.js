@@ -54,7 +54,7 @@ const sortOperations = (operations) => {
 export const getLatest = async (token) => {
     const data = await getAll(token)
     const sortedData = sortOperations(data)
-    return sortedData
+    return sortedData.slice(0,10)
     
 }
 

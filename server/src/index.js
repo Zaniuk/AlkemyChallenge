@@ -4,13 +4,21 @@ import express from 'express'
 import operationsRoute from './routes/operations.route.js'
 import usersRoute from './routes/users.route.js'
 import { sequelize } from './database/database.js'
+import cors from 'cors'
 import './models/User.js'
 import  './models/Operation.js'
 const app = express()
-
+// const corsOptions = {
+//   origin: 'http://127.0.0.1:5173/',
+//   optionsSuccessStatus: 200 
+// }
+app.use(cors())
 app.use(express.json())
 app.get('/', async(req, res) => {
   res.send('Hello World!')
+//   sequelize.sync({
+//     force: true
+// });
 })
 app.use(operationsRoute)
 app.use(usersRoute)

@@ -1,13 +1,13 @@
 import React from 'react'
 import TableItem from './TableItem'
 import { useState, useEffect } from 'react'
-import { getAll, getLatest } from '../../../helpers/helpers'
+import { getLatest } from '../../../helpers/helpers'
 import './Table.css'
 export default function Table() {
     const [operations, setOperations] = useState([])
     
     useEffect(()=>{
-        getAll('950620a4-9a95-4a1e-b34d-470d5096498a').then(res => {
+        getLatest('950620a4-9a95-4a1e-b34d-470d5096498a').then(res => {
             console.log(res)
             setOperations(res)
         })

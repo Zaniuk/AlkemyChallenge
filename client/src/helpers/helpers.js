@@ -3,7 +3,7 @@ export const convertDateToStriing = (d) => {
     return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
 }
 export const getAll = async (token) => {
-    const options = {method: 'GET', headers: {token: token}};
+    const options = { method: 'GET', headers: { token: token } };
     const data = await fetch('http://localhost/operations', options).then(response => response.json())
     return data
 }
@@ -32,12 +32,15 @@ export const deleteOperation = async (id) => {
 }
 
 export const createOpr = async ({ concept, amount, type, token }) => {
-    const user = '8b342aa0-4515-4aff-bcfc-e05deeb67509'
     const options = {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: `{"concept":"${concept}","amount":${amount},"type":"${type}","token":"${user}"}`
+        headers: {
+            'Content-Type': 'application/json',
+            token: token
+        },
+        body: `{"concept":"${concept}","amount":${amount},"type":"${type}"}`
     };
+
 
     const res = fetch('http://localhost/operations', options).then(response => response.json())
     return res
@@ -54,8 +57,8 @@ const sortOperations = (operations) => {
 export const getLatest = async (token) => {
     const data = await getAll(token)
     const sortedData = sortOperations(data)
-    return sortedData.slice(0,10)
-    
+    return sortedData.slice(0, 10)
+
 }
 
 export async function getBalance(user) {

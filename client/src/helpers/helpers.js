@@ -2,8 +2,8 @@ export const convertDateToStriing = (d) => {
     const date = new Date(d)
     return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
 }
-export const getAll = async (user) => {
-    const options = { method: 'GET', headers: { user: user } };
+export const getAll = async (token) => {
+    const options = {method: 'GET', headers: {token: token}};
     const data = await fetch('http://localhost/operations', options).then(response => response.json())
     return data
 }
@@ -31,12 +31,12 @@ export const deleteOperation = async (id) => {
     return res
 }
 
-export const createOpr = async ({ concept, amount, type }) => {
-    const user = '62d34380b3954d8270d05ea2'
+export const createOpr = async ({ concept, amount, type, token }) => {
+    const user = '8b342aa0-4515-4aff-bcfc-e05deeb67509'
     const options = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: `{"concept":"${concept}","amount":${amount},"type":"${type}","user":"${user}"}`
+        body: `{"concept":"${concept}","amount":${amount},"type":"${type}","token":"${user}"}`
     };
 
     const res = fetch('http://localhost/operations', options).then(response => response.json())
@@ -51,10 +51,11 @@ const sortOperations = (operations) => {
     })
     return data
 }
-export const getLatest = async (user) => {
-    const data = await getAll(user)
+export const getLatest = async (token) => {
+    const data = await getAll(token)
     const sortedData = sortOperations(data)
-    return sortedData.slice(0, 10)
+    return sortedData
+    
 }
 
 export async function getBalance(user) {
@@ -69,4 +70,19 @@ export async function getBalance(user) {
         }
     });
     return balance
+}
+
+export const login = ({ email, password }) => {
+    const options = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: `{"email":"${email}","password":"${password}"}`
+    };
+
+    fetch('http://localhost/users/login', options)
+        .then(res => res.json())
+        .then(res => {
+            sessionStorage.setItem(token, res.token)
+        })
+        .catch(err => console.error(err))
 }

@@ -1,13 +1,16 @@
 import React from 'react'
 import TableItem from './TableItem'
 import { useState, useEffect } from 'react'
-import { getLatest } from '../../../helpers/helpers'
+import { getAll, getLatest } from '../../../helpers/helpers'
 import './Table.css'
 export default function Table() {
     const [operations, setOperations] = useState([])
     
     useEffect(()=>{
-        getLatest('62d34380b3954d8270d05ea2').then(res => setOperations(res))
+        getAll('950620a4-9a95-4a1e-b34d-470d5096498a').then(res => {
+            console.log(res)
+            setOperations(res)
+        })
     }, [])
   return (
     <section>
@@ -26,7 +29,7 @@ export default function Table() {
                 <tbody>
                 {
                     operations.map((operation) => {
-                        return <TableItem key={operation._id} operation={operation}/>
+                        return <TableItem key={operation.id} operation={operation}/>
                     })
                 }
                 </tbody>

@@ -6,7 +6,7 @@ import { getBalance } from '../../../helpers/helpers'
 export default function Balance() {
     const [balance, setBalance] = useState()
     useEffect(() => {
-        getBalance('62d34380b3954d8270d05ea2').then(res => setBalance(res))
+        getBalance('950620a4-9a95-4a1e-b34d-470d5096498a').then(res => setBalance(res))
     }, [])
   return (
     <section className='balance'>

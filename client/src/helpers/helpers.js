@@ -24,10 +24,17 @@ export const updateOne = async ({ id, date, concept, amount }) => {
     return response
 }
 
-export const deleteOperation = async (id) => {
-    const options = { method: 'DELETE' };
+export const deleteOperation = async (id, token) => {
+    const options = {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          token: `${token}`
+        },
+        body: `{"id":"${id}"}`
+      };
 
-    const res = await fetch(`http://localhost/operations/${id}`, options).then(response => response.json())
+    const res = await fetch(`http://localhost/operations/`, options).then(response => response.json())
     return res
 }
 

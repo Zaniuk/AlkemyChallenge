@@ -10,6 +10,6 @@ router.post('/operations', createOperation)
 
 router.put('/operations/', updateOperation)
 
-router.delete('/operations/:id', deleteOperation)
+router.delete('/operations/', deleteOperation)
 
 export default router

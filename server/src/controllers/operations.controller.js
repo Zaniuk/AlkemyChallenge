@@ -2,6 +2,7 @@ import { User } from "../models/User.js"
 import { Operation } from "../models/Operation.js"
 import { v4 as uuidv4 } from 'uuid';
 import { validate } from "uuid";
+
 export const getOperations = async (req, res) => {
 
     const { token } = req.headers
@@ -81,8 +82,17 @@ export const updateOperation = async (req, res) => {
 
 }
 
-export const deleteOperation = (req, res) => {
-    res.send('deleting operation')
+export const deleteOperation = async(req, res) => {
+    const {id} = req.body
+    const {token} = req.headers
+    const operation = await Operation.destroy({
+        where: {id: id, userId: token}
+    })
+    if(operation === 1){
+        res.send({message: 'Operation deleted sucessfully'})
+    }else{
+        res.send({error: "Can't find that operation"})
+    }
 }
 export const getOperationById = (req, res) => {
     res.send('Getting Operation')

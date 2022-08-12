@@ -7,20 +7,24 @@ export default function CreateOperation() {
     const [concept, setConcept] = useState('Taxes')
     const [type, setType] = useState('outcome')
     const [amount, setAmount] = useState(1)
-    const token = '950620a4-9a95-4a1e-b34d-470d5096498a'
+    const token = sessionStorage.getItem('token')
     return (
         <section className="container">
             <form onSubmit={e => {
                 e.preventDefault()
-                createOpr({ concept, amount, type, token })
-                    .then(res => {
-                       if(res) {
-                        setTimeout(() => {
-                            window.location.replace('/')
-                        }, 500)
-                       }
-                    })
-                
+                if (token) {
+                    createOpr({ concept, amount, type, token })
+                        .then(res => {
+                            if (res) {
+                                setTimeout(() => {
+                                    window.location.replace('/')
+                                }, 500)
+                            }
+                        })
+                }else{
+                    location.replace('/login')
+                }
+
             }}>
                 <label>
                     <span>Operation type</span>

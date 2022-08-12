@@ -7,10 +7,16 @@ export default function Table() {
     const [operations, setOperations] = useState([])
     
     useEffect(()=>{
-        getLatest('950620a4-9a95-4a1e-b34d-470d5096498a').then(res => {
-            console.log(res)
-            setOperations(res)
-        })
+        const token = sessionStorage.getItem('token')
+        if(token){
+            getLatest(token).then(res => {
+                console.log(res)
+                setOperations(res)
+            })
+        }else{
+            location.replace('/login')
+        }
+        
     }, [])
   return (
     <section>

@@ -28,11 +28,11 @@ export const deleteOperation = async (id, token) => {
     const options = {
         method: 'DELETE',
         headers: {
-          'Content-Type': 'application/json',
-          token: `${token}`
+            'Content-Type': 'application/json',
+            token: `${token}`
         },
         body: `{"id":"${id}"}`
-      };
+    };
 
     const res = await fetch(`http://localhost/operations/`, options).then(response => response.json())
     return res
@@ -82,17 +82,18 @@ export async function getBalance(user) {
     return balance
 }
 
-export const login = ({ email, password }) => {
+export const login = async ({ email, password }) => {
     const options = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: `{"email":"${email}","password":"${password}"}`
     };
 
-    fetch('http://localhost/users/login', options)
+    const user = await fetch('http://localhost/users/login', options)
         .then(res => res.json())
-        .then(res => {
-            sessionStorage.setItem(token, res.token)
+        .then(res => sessionStorage.setItem('token', res.token))
+        .then(() => {
+            return sessionStorage.getItem('token')
         })
-        .catch(err => console.error(err))
+        return user
 }

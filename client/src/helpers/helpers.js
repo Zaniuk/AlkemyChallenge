@@ -1,17 +1,31 @@
-export const convertDateToStriing = (d) => {
+import apiManager from './fetchHelper.js'
+export {
+    convertDateToStriing,
+    getAll,
+    getOne,
+    updateOne,
+    deleteOperation,
+    createOpr,
+    sortOperations,
+    getLatest,
+    getBalance, 
+    login    
+}
+const convertDateToStriing = (d) => {
     const date = new Date(d)
     return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
 }
-export const getAll = async (token) => {
+ const getAll = async (token) => {
     const options = { method: 'GET', headers: { token: token } };
     const data = await fetch('http://localhost/operations', options).then(response => response.json())
+    
     return data
 }
-export const getOne = async (id) => {
+ const getOne = async (id) => {
     const data = await fetch(`http://localhost/operations/${id}`).then(response => response.json())
     return data
 }
-export const updateOne = async ({ id, date, concept, amount }) => {
+ const updateOne = async ({ id, date, concept, amount }) => {
     const rawData = { date, concept, amount }
     const data = JSON.stringify(rawData)
     const options = {
@@ -24,7 +38,7 @@ export const updateOne = async ({ id, date, concept, amount }) => {
     return response
 }
 
-export const deleteOperation = async (id, token) => {
+ const deleteOperation = async (id, token) => {
     const options = {
         method: 'DELETE',
         headers: {
@@ -38,7 +52,7 @@ export const deleteOperation = async (id, token) => {
     return res
 }
 
-export const createOpr = async ({ concept, amount, type, token }) => {
+ const createOpr = async ({ concept, amount, type, token }) => {
     const options = {
         method: 'POST',
         headers: {
@@ -61,14 +75,14 @@ const sortOperations = (operations) => {
     })
     return data
 }
-export const getLatest = async (token) => {
+ const getLatest = async (token) => {
     const data = await getAll(token)
     const sortedData = sortOperations(data)
     return sortedData.slice(0, 10)
 
 }
 
-export async function getBalance(user) {
+ async function getBalance(user) {
     const data = await getAll(user)
 
     let balance = 0
@@ -82,7 +96,7 @@ export async function getBalance(user) {
     return balance
 }
 
-export const login = async ({ email, password }) => {
+ const login = async ({ email, password }) => {
     const options = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

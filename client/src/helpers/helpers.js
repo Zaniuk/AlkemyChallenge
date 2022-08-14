@@ -1,4 +1,3 @@
-import apiManager from './fetchHelper.js'
 export {
     convertDateToStriing,
     getAll,

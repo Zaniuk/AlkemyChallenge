@@ -4,15 +4,11 @@ import { Op } from "sequelize";
 
 
 export const getUser = async (req, res) => {
-    const {email, password} = req.body
+    const { email, password } = req.body
     const user = await User.findOne({
         email, password
     })
-    if(user){
-        res.send({token: user.id})
-    }else{
-        res.send({error: 'check your email or password'})
-    }
+    user ? res.send({ token: user.id }) : res.send({ error: 'check your email or password' })
 }
 
 export const creeateUser = async (req, res) => {
@@ -28,7 +24,7 @@ export const creeateUser = async (req, res) => {
             id: uuidv4(),
             username,
             email,
-            password,
+            password
         })
         res.send({
             "sucess": "Your user is sucessfully created"
@@ -48,18 +44,18 @@ export const updateUser = async (req, res) => {
     if (password != newPassword) {
         const user = await User.findOne({
             id: id,
-            where: {password : password}
+            where: { password: password }
         })
-        if(user){
+        if (user) {
             user.set({
                 password: newPassword
             })
             const updated = await user.save()
             res.send(updated)
-        }else{
-            res.send({error: 'incorrect password'})
+        } else {
+            res.send({ error: 'incorrect password' })
         }
-    }else{
-        res.send({error: 'password cannot be the same'})
+    } else {
+        res.send({ error: 'password cannot be the same' })
     }
 }

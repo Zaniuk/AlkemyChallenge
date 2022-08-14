@@ -12,12 +12,7 @@ export const getOperations = async (req, res) => {
                 where: { userId: token }
             })
 
-            if (operations) {
-                // console.log(operations)
-                res.send(operations)
-            } else {
-                res.send({ error: 'This user has not operations yet' })
-            }
+            operations ? res.send(operations) :  res.send({ error: 'This user has not operations yet' })
         }else{
             res.send({
                 error: 'Your token is not valid'
@@ -41,11 +36,7 @@ export const createOperation = async (req, res) => {
                 userId: token,
                 date: new Date()
             })
-            if (!operation) {
-                res.send({ error: 'Can not create operation' })
-            } else {
-                res.send(operation)
-            }
+            !operation ? res.send({ error: 'Can not create operation' }) : res.send(operation)
         } catch (error) {
             res.send(error)
         }
@@ -66,15 +57,7 @@ export const updateOperation = async (req, res) => {
             }, {
                 where: { userId: token, id: id }
             })
-            if (operation[0] === 1) {
-                res.send({
-                    message: 'Operation updated sucessfully'
-                })
-            } else {
-                res.send({
-                    error: 'Can not update operation'
-                })
-            }
+            operation[0] === 1 ? res.send({ message: 'Operation updated sucessfully' }) : res.send({ error: 'Can not update operation' })
         } catch (error) {
             res.send({ error })
         }
@@ -88,11 +71,7 @@ export const deleteOperation = async(req, res) => {
     const operation = await Operation.destroy({
         where: {id: id, userId: token}
     })
-    if(operation === 1){
-        res.send({message: 'Operation deleted sucessfully'})
-    }else{
-        res.send({error: "Can't find that operation"})
-    }
+    operation === 1 ? res.send({message: 'Operation deleted sucessfully'}) : res.send({error: "Can't find that operation"})
 }
 export const getOperationById = (req, res) => {
     res.send('Getting Operation')

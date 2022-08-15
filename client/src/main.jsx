@@ -9,6 +9,7 @@ import NotFound from './routes/NotFound';
 import Login from './routes/Login';
 import './assets/pico.min.css'
 import EditSucess from './components/EditOperation/EditSucess';
+import Register from './routes/Register';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
@@ -19,6 +20,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path='/create' element={<Create/>} />
         <Route path='/sucess' element={<EditSucess/>}/>
         <Route path='/login' element={<Login/>}/>
+        <Route path='/register' element={<Register/>}/>
         <Route path='*' element={<NotFound/>} />
       </Routes>
     </BrowserRouter>

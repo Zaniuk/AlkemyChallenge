@@ -2,8 +2,11 @@ import React from 'react'
 import { login } from '../../helpers/helpers'
 export default function UserLogin() {
   const signIn = (e) => {
-    e.preventDefault()
-    login('gerozwa49@g12312mail.com', 'callof1dutymw32').then(user =>{
+    e.preventDefault()  
+    const email = document.getElementById('email').value
+    const password = document.getElementById('password').value
+    
+    login(email, password).then(user =>{
       if(user){
         location.replace('/')
       }
@@ -14,11 +17,11 @@ export default function UserLogin() {
       <form onSubmit={signIn}>
         <label>
           Email
-          <input type="email" required />
+          <input id="email" type="email" required />
         </label>
         <label>
           Password
-          <input type="password" required />
+          <input id='password' type="password" required />
         </label>
         <input type="submit" value='Login' id="submit" />
       </form>

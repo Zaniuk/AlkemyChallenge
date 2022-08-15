@@ -1,6 +1,6 @@
 import React from 'react'
 import { convertDateToStriing, deleteOperation } from '../../../helpers/helpers'
-
+import { AiFillEdit, AiFillDelete } from "react-icons/ai";
 
 export default function TableItem({ operation , colorClass}) {
   
@@ -20,16 +20,16 @@ export default function TableItem({ operation , colorClass}) {
         <td>{date}</td>
         <td>{operation.concept}</td>
         <td className={colorClass}>{setOperationSymbol(operation)}</td>
-        <td>
+        <td className='buttons-row'>
           <a href={`edit/${operation.id}&${operation.type}`}>
-            <button>Editar</button>
+            <button><AiFillEdit/></button>
           </a>
           <button
             onClick={() => {
               deleteOperation(operation.id, token).then(location.reload())
             }}
             className='delete-button'>
-            Eliminar
+            <AiFillDelete/>
           </button>
         </td>
       </tr>

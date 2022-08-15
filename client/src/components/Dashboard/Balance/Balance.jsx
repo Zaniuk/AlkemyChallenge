@@ -6,13 +6,14 @@ import { getBalance } from '../../../helpers/helpers'
 export default function Balance() {
     const [balance, setBalance] = useState()
     useEffect(() => {
-        getBalance('950620a4-9a95-4a1e-b34d-470d5096498a').then(res => setBalance(res))
+        const token = sessionStorage.getItem('token')
+        token ? getBalance(token).then(res => setBalance(res)) : location.replace('/login')
     }, [])
   return (
     <section className='balance'>
         <div className="balance-text-info">
-            <h1>Hola, <span className="color-primary">Geronimo</span></h1>
-            <h2>Tu balance es: ${balance} </h2>
+            <h1>Hello, <span className="color-primary">Geronimo</span></h1>
+            <h2>Your balance is: ${balance} </h2>
         </div>
         <ChartComponent/>
     </section>

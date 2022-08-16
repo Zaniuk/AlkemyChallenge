@@ -2,18 +2,23 @@ import React from 'react'
 import SelectConcept from '../Reusable/SelectConcept'
 import { useState } from 'react'
 import { createOpr } from '../../helpers/helpers.js'
+import DatePicker from 'react-datepicker'
 
 export default function CreateOperation() {
     const [concept, setConcept] = useState('Taxes')
     const [type, setType] = useState('outcome')
     const [amount, setAmount] = useState(1)
     const token = sessionStorage.getItem('token')
+    const [startDate, setStartDate] = useState(new Date());
+
     return (
         <section className="container">
             <form onSubmit={e => {
                 e.preventDefault()
                 if (token) {
-                    createOpr({ concept, amount, type, token })
+                    const date = new Date(startDate).toISOString()
+                    console.log(date)
+                    createOpr({ concept, amount, type, token, date })
                         .then(res => {
                             if (res) {
                                 setTimeout(() => {
@@ -21,11 +26,14 @@ export default function CreateOperation() {
                                 }, 500)
                             }
                         })
-                }else{
+                } else {
                     location.replace('/login')
                 }
 
             }}>
+                <label>
+                    <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />
+                </label>
                 <label>
                     <span>Operation type</span>
                     <select name="type" id="type" value={type} onChange={e => {

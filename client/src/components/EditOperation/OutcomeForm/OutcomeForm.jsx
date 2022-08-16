@@ -3,18 +3,20 @@ import {getOne, updateOne } from '../../../helpers/helpers'
 import DatePicker from 'react-datepicker'
 import "react-datepicker/dist/react-datepicker.css";
 export default function OutcomeForm({id}) {
-    const [operation, setOperation] = useState({})
     const [date, setDate] = useState()
     const [concept, setConcept] = useState('')
     const [amount, setAmount] = useState(0)
+    const token = sessionStorage.getItem('token')
+    const [startDate, setStartDate] = useState(new Date());
 
     useEffect(() => {
         getOne(id)
             .then(res => {
                 setOperation(res)
-                setDate(new Date(res.date))
+                setDate(res.date)
                 setConcept(res.concept)
                 setAmount(res.amount)
+                console.log(date)
             })
     }, [])
   return (
@@ -29,9 +31,7 @@ export default function OutcomeForm({id}) {
     }}>
       <label>
         <span>Date</span>
-        <DatePicker selected={date} onChange={date => {
-            console.log(date)
-        }}/>
+        <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />
       </label>
       <label>
         <span>Concept</span>

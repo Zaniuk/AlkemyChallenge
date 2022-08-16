@@ -1,15 +1,20 @@
 import React from 'react'
 import { login } from '../../helpers/helpers'
+import { useState } from 'react'
 export default function UserLogin() {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const handleEmail = (e) => setEmail(e.target.value)
+  const handlePassword = (e) => setPassword(e.target.value)
   const signIn = (e) => {
     e.preventDefault()  
-    const email = document.getElementById('email').value
-    const password = document.getElementById('password').value
-    
-    login(email, password).then(user =>{
-      if(user){
-        location.replace('/')
+    login({email, password})
+    .then(user =>{
+      if(user.token){
+        sessionStorage.setItem('token', user.token)
       }
+    }).then(() => {
+      location.replace('/')
     })
   } 
   return (
@@ -17,11 +22,11 @@ export default function UserLogin() {
       <form onSubmit={signIn}>
         <label>
           Email
-          <input id="email" type="email" required />
+          <input onChange={handleEmail} id="email" type="email" required />
         </label>
         <label>
           Password
-          <input id='password' type="password" required />
+          <input onChange={handlePassword} id='password' type="password" required />
         </label>
         <input type="submit" value='Login' id="submit" />
       </form>

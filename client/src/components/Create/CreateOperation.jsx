@@ -5,7 +5,7 @@ import { createOpr } from '../../helpers/helpers.js'
 import DatePicker from 'react-datepicker'
 
 export default function CreateOperation() {
-    const [concept, setConcept] = useState('Taxes')
+    const [concept, setConcept] = useState('Services')
     const [type, setType] = useState('outcome')
     const [amount, setAmount] = useState(1)
     const token = sessionStorage.getItem('token')
@@ -17,13 +17,11 @@ export default function CreateOperation() {
                 e.preventDefault()
                 if (token) {
                     const date = new Date(startDate).toISOString()
-                    console.log(date)
+                    
                     createOpr({ concept, amount, type, token, date })
                         .then(res => {
-                            if (res) {
-                                setTimeout(() => {
-                                    window.location.replace('/')
-                                }, 500)
+                            if (!res.error) {
+                                location.replace('/')
                             }
                         })
                 } else {

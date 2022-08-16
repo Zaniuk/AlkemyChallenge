@@ -29,6 +29,7 @@ export default function UserLogin() {
           <input onChange={handlePassword} id='password' type="password" required />
         </label>
         <input type="submit" value='Login' id="submit" />
+        <span>Don't have account? Click<a href="/register"> here</a></span>
       </form>
     </div>
   )

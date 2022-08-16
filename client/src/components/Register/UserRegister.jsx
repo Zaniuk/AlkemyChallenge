@@ -7,6 +7,10 @@ export default function UserRegister() {
   return (
     <div className="container">
       <form onSubmit={signUp}>
+      <label>
+          Username
+          <input type="text" required />
+        </label>
         <label>
           Email
           <input type="email" required />
@@ -15,7 +19,7 @@ export default function UserRegister() {
           Password
           <input type="password" required />
         </label>
-        <input type="submit" value='Login' id="submit" />
+        <input type="submit" value='Register' id="submit" />
       </form>
     </div>
   )

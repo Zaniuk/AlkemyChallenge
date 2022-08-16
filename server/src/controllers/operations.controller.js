@@ -24,9 +24,9 @@ export const getOperations = async (req, res) => {
 }
 
 export const createOperation = async (req, res) => {
-    const { concept, amount, type } = req.body
+    const { concept, amount, type, date } = req.body
     const { token } = req.headers
-    if (concept && amount && type && token) {
+    if (concept && amount && type && token && date)  {
         try {
             const operation = await Operation.create({
                 id: uuidv4(),
@@ -34,7 +34,7 @@ export const createOperation = async (req, res) => {
                 amount: amount,
                 type: type,
                 userId: token,
-                date: new Date()
+                date: new Date(date)
             })
             !operation ? res.send({ error: 'Can not create operation' }) : res.send(operation)
         } catch (error) {
@@ -47,13 +47,14 @@ export const createOperation = async (req, res) => {
 
 export const updateOperation = async (req, res) => {
     const { id, data } = req.body
-    const { amount, concept } = data
+    const { amount, concept, date } = data
     const { token } = req.headers
     if (data) {
         try {
             const operation = await Operation.update({
                 amount,
-                concept
+                concept,
+                date
             }, {
                 where: { userId: token, id: id }
             })
@@ -73,6 +74,9 @@ export const deleteOperation = async(req, res) => {
     })
     operation === 1 ? res.send({message: 'Operation deleted sucessfully'}) : res.send({error: "Can't find that operation"})
 }
-export const getOperationById = (req, res) => {
-    res.send('Getting Operation')
+export const getOperationById = async(req, res) => {
+    const {id}= req.params
+    const operation = await Operation.findOne({
+        
+    })
 }

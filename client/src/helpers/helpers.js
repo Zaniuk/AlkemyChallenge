@@ -51,15 +51,15 @@ const convertDateToStriing = (d) => {
     return res
 }
 
- const createOpr = async ({ concept, amount, type, token }) => {
+ const createOpr = async ({ concept, amount, type, token, date }) => {
     const options = {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json',
-            token: token
+          'Content-Type': 'application/json',
+          token: token,
         },
-        body: `{"concept":"${concept}","amount":${amount},"type":"${type}"}`
-    };
+        body: `{"concept":"${concept}","amount":${amount},"type":"${type}","date":"${date}"}`
+      };
 
 
     const res = fetch('http://localhost/operations', options).then(response => response.json())

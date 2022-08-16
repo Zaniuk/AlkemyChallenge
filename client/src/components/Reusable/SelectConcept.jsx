@@ -20,6 +20,7 @@ export default function SelectConcept({ setConcept, type, concept }) {
                     <option value="Market">Market</option>
                     <option value="Shopping">Shopping</option>
                     <option value="Entertainment">Entertainment</option>
+                    <option value="Others">Others</option>
                 </select>
             </label>
         )

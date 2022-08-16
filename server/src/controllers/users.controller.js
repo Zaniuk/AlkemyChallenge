@@ -1,12 +1,13 @@
 import { User } from "../models/User.js"
 import { v4 as uuidv4 } from 'uuid';
 import { Op } from "sequelize";
-
+import stringHash from 'string-hash'
 
 export const getUser = async (req, res) => {
     const { email, password } = req.body
     const user = await User.findOne({
-        email, password
+        email, 
+        password: stringHash(password)
     })
     user ? res.send({ token: user.id }) : res.send({ error: 'check your email or password' })
 }

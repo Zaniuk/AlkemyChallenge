@@ -22,9 +22,6 @@ export const Operation = sequelize.define('operations', {
         get(){
             return moment(this.getDataValue('date')).format();
         }
-        // set(){
-
-        // }
     }
     
 })

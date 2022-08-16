@@ -19,15 +19,15 @@ export default function Table() {
     }, [])
     return (
         <section>
-            <h2 id='table-title'>Últimas operaciones realizadas</h2>
+            <h2 id='table-title'>Lastest opreations:</h2>
             <figure>
                 <table role="grid">
                     <thead>
                         <tr>
-                            <th>Fecha</th>
-                            <th>Concepto</th>
-                            <th>Monto</th>
-                            <th><div className='add-container'><a href="/create"><button className='add-operation'>+</button></a></div></th>
+                            <th>Date</th>
+                            <th>Concept</th>
+                            <th>Amount</th>
+                            <th className='buttons-row'><div><a href="/create"><button className='add-operation'>+</button></a></div></th>
                         </tr>
                     </thead>
                     <tbody>

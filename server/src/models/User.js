@@ -12,7 +12,7 @@ export const User = sequelize.define('users', {
         type: DataTypes.STRING
     },
     password: {
-        type: DataTypes.STRING,
+        type: DataTypes.BIGINT,
         set(value){
             this.setDataValue('password', stringHash(value));
         }

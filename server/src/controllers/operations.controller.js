@@ -2,14 +2,19 @@ import { User } from "../models/User.js"
 import { Operation } from "../models/Operation.js"
 import { v4 as uuidv4 } from 'uuid';
 import { validate } from "uuid";
+import jwt from "jsonwebtoken";
 
 export const getOperations = async (req, res) => {
 
-    const { token } = req.headers
+    let token = req.headers['Authorization'] || req.headers['authorization']
+    // splits the token in [Bearer, token] and takes the second element
+    token = token.split(' ')[1]
+    console.log(jwt.verify(token, process.env.JWT_SECRET))
+    const decoded = await jwt.verify(token, process.env.JWT_SECRET)
     try {
-        if (validate(token)) {
+        if (validate(decoded.id)) {
             const operations = await Operation.findAll({
-                where: { userId: token }
+                where: { userId: decoded.id }
             })
 
             operations ? res.send(operations) :  res.send({ error: 'This user has not operations yet' })
@@ -25,7 +30,9 @@ export const getOperations = async (req, res) => {
 
 export const createOperation = async (req, res) => {
     const { concept, amount, type, date } = req.body
-    const { token } = req.headers
+    let token = req.headers['Authorization'] || req.headers['authorization']
+    // splits the token in [Bearer, token] and takes the second element
+    token = token.split(' ')[1]
     if (concept && amount && type && token && date)  {
         try {
             const operation = await Operation.create({
@@ -48,7 +55,9 @@ export const createOperation = async (req, res) => {
 export const updateOperation = async (req, res) => {
     const { id, data } = req.body
     const { amount, concept, date } = data
-    const { token } = req.headers
+    let token = req.headers['Authorization'] || req.headers['authorization']
+    // splits the token in [Bearer, token] and takes the second element
+    token = token.split(' ')[1]
     if (data) {
         try {
             const operation = await Operation.update({
@@ -68,7 +77,9 @@ export const updateOperation = async (req, res) => {
 
 export const deleteOperation = async(req, res) => {
     const {id} = req.body
-    const {token} = req.headers
+    let token = req.headers['Authorization'] || req.headers['authorization']
+    // splits the token in [Bearer, token] and takes the second element
+    token = token.split(' ')[1]
     const operation = await Operation.destroy({
         where: {id: id, userId: token}
     })
@@ -76,7 +87,17 @@ export const deleteOperation = async(req, res) => {
 }
 export const getOperationById = async(req, res) => {
     const {id}= req.params
-    const operation = await Operation.findOne({
-        
-    })
+    let token = req.headers['Authorization'] || req.headers['authorization']
+    // splits the token in [Bearer, token] and takes the second element
+    if(token){
+        token = token.split(' ')[1]
+        const operation = await Operation.findOne({
+            where: {id: id}
+        })
+        operation ? res.send(operation) : res.send({error: "Can't find that operation"})
+
+    }else{
+        res.send({error: "You don't have a token"})
+    }
+
 }

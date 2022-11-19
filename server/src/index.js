@@ -10,8 +10,9 @@ import  './models/Operation.js'
 const app = express()
 app.use(cors())
 app.use(express.json())
-app.get('/', async(req, res) => {
+app.get('/sync', async(req, res) => {
   res.send('Hello World!')
+  sequelize.sync({force: true})
 })
 app.use(operationsRoute)
 app.use(usersRoute)

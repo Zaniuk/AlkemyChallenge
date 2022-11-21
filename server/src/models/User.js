@@ -1,6 +1,8 @@
 import { DataTypes } from 'sequelize'
 import { sequelize } from "../database/database.js";
 import { Operation } from './Operation.js';
+import bcrypt from 'bcrypt';
+import { hashPassword } from '../helpers/users.js';
 
 export const User = sequelize.define('users', {
     username: {
@@ -12,6 +14,14 @@ export const User = sequelize.define('users', {
     },
     password: {
         type: DataTypes.STRING,
+        set(val) {
+            hashPassword(val).then((hash) => {
+                this.setDataValue('password', hash);
+            })
+        },
+        get() {
+            return () => this.getDataValue('password')
+        }
     },
     id: {
         type: DataTypes.UUID,

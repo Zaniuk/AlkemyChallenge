@@ -1,7 +1,6 @@
 import { DataTypes } from 'sequelize'
 import { sequelize } from "../database/database.js";
 import { Operation } from './Operation.js';
-import stringHash from 'string-hash'
 
 export const User = sequelize.define('users', {
     username: {
@@ -12,10 +11,7 @@ export const User = sequelize.define('users', {
         type: DataTypes.STRING
     },
     password: {
-        type: DataTypes.BIGINT,
-        set(value){
-            this.setDataValue('password', stringHash(value));
-        }
+        type: DataTypes.STRING,
     },
     id: {
         type: DataTypes.UUID,

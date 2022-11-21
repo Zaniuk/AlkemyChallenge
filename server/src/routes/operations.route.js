@@ -1,15 +1,22 @@
 import { Router } from "express";
-import { getOperations, createOperation, getOperationById, updateOperation, deleteOperation} from "../controllers/operations.controller.js";
-const router = Router()
+import {
+  getOperations,
+  createOperation,
+  getOperationById,
+  updateOperation,
+  deleteOperation,
+} from "../controllers/operations.controller.js";
+import verifyToken from "../middlewares/verifyToken.js";
+const router = Router();
 
-router.get('/operations', getOperations)
+router.get("/operations", verifyToken, getOperations);
 
-router.get('/operations/:id', getOperationById)
+router.get("/operations/:id", verifyToken, getOperationById);
 
-router.post('/operations', createOperation)
+router.post("/operations", verifyToken, createOperation);
 
-router.put('/operations/', updateOperation)
+router.put("/operations/:id", verifyToken, updateOperation);
 
-router.delete('/operations/', deleteOperation)
+router.delete("/operations/", verifyToken, deleteOperation);
 
-export default router
+export default router;

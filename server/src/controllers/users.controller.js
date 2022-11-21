@@ -1,72 +1,79 @@
 import { User } from "../models/User.js";
 import { v4 as uuidv4 } from "uuid";
 import { Op } from "sequelize";
-import stringHash from "string-hash";
-
-export const getUser = async (req, res) => {
+// import stringHash from "string-hash";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+export const login = async (req, res) => {
   const { email, password } = req.body;
-  try {
-    const user = await User.findOne({
-      where: {
-        email,
-        password: stringHash(password),
-      },
-    });
-    user
-      ? res.send({ token: user.id })
-      : res.send({ error: "check your email or password" });
-  } catch (error) {
-    res.send(error);
+  if (email && password) {
+    try {
+      await User.findOne({
+        where: {
+          email: email,
+        },
+      }).then((user) => {
+        if (user) {
+          let _user = user.toJSON();
+          const isValidPassword = bcrypt.compareSync(password, String (_user.password));
+          console.log(isValidPassword);
+          console.log(_user.password , password);
+
+          if (isValidPassword) {
+            const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
+              expiresIn: 86400, // 24 hours
+            });
+            res.status(200).json({
+              message: "Login successful",
+              token: token,
+              user: _user,
+            }).end();
+          }
+        }
+      });
+    } catch (err) {
+      console.log(err);
+    }
   }
 };
 
 export const creeateUser = async (req, res) => {
-  const { username, email, password } = req.body;
-  const validations = await User.findAll({
-    where: {
-      [Op.or]: [{ email: email }, { username: username }],
-    },
-  });
-  if (validations.length == 0) {
+  const { email, password, username } = req.body;
+  if (email && password && username) {
     try {
-      const newUser = await User.create({
+      const hashPassword = bcrypt.hashSync(password, 10);
+      await User.create({
         id: uuidv4(),
-        username,
-        email,
-        password,
+        email: email,
+        password: hashPassword,
+        username: username,
+      }).then((user) => {
+        const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
+          expiresIn: 86400, // 24 hours
+        });
+        res.send({ token, user });
       });
-      res.send({
-        sucess: "Your user is sucessfully created",
-      });
-    } catch (e) {
-      res.send({ error: e });
+    } catch (error) {
+      res.send(error);
     }
   } else {
-    res.send({
-      error: "Email or username is already taken",
-    });
+    res.send({ error: "Please fill all fields" });
   }
 };
-
-export const updateUser = async (req, res) => {
-  const { data } = req.body;
-  const { password, newPassword } = data;
-  const { id } = req.params;
-  if (password != newPassword) {
-    const user = await User.findOne({
-      id: id,
-      where: { password: password },
+export const auth = async (req, res, next) => {
+  const token = req.headers["Authorization"] || req.headers["authorization"];
+  if (token) {
+    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+      if (err) {
+        res.send({ error: "Invalid token" });
+      } else {
+        res.send({
+          user: decoded,
+        });
+        next();
+      }
     });
-    if (user) {
-      user.set({
-        password: newPassword,
-      });
-      const updated = await user.save();
-      res.send(updated);
-    } else {
-      res.send({ error: "incorrect password" });
-    }
   } else {
-    res.send({ error: "password cannot be the same" });
+    res.send({ error: "No token provided" });
   }
 };

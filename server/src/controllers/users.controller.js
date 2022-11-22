@@ -1,7 +1,7 @@
 import { User } from "../models/User.js";
 import { v4 as uuidv4 } from "uuid";
 import { Op } from "sequelize";
-import bcrypt from "bcrypt";
+// import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { isValidPassword, signToken } from "../helpers/users.js";
 export const login = async (req, res) => {
@@ -17,13 +17,20 @@ export const login = async (req, res) => {
           let _user = user.toJSON();
           const passwordValidation = isValidPassword(_user.password, password);
           if (passwordValidation) {
-            let token =  await signToken(_user.id);
+            let token = await signToken(_user);
             token = `Bearer ${token}`;
-            res.status(200).json({
-              message: "Login successful",
-              token: token,
-              user: _user,
-            }).end();
+            res
+              .status(200)
+              .json({
+                message: "Login successful",
+                token: token,
+                user: _user,
+              })
+              .end();
+          }else{
+            res.status(401).json({
+              message: "Invalid credentials",
+            });
           }
         }
       });
@@ -44,8 +51,13 @@ export const creeateUser = async (req, res) => {
         password: password,
         username: username,
       }).then((user) => {
-        const token = signToken(user.id);
-        res.send({ token, user });
+        signToken(user).then((token) => {
+          res.status(200).json({
+            message: "User created successfully",
+            token: token,
+            user: user,
+          });
+        });
       });
     } catch (error) {
       res.send(error);
@@ -56,20 +68,13 @@ export const creeateUser = async (req, res) => {
 };
 export const auth = async (req, res, next) => {
   let token = req.headers["Authorization"] || req.headers["authorization"];
-
-  if (token) {
-    token = token.split(" ")[1];
-    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-      if (err) {
-        res.send({ error: "Invalid token" });
-      } else {
-        res.send({
-          user: decoded,
-        });
-        next();
-      }
-    });
-  } else {
-    res.send({ error: "No token provided" });
+  token = token.split(" ")[1];
+try{
+  const decoded = await jwt.verify(token, process.env.JWT_SECRET);
+  if (decoded) {
+    res.json(decoded)
   }
+}catch(error){
+  res.status(401).json({error})
+}
 };

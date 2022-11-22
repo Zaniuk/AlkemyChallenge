@@ -3,8 +3,8 @@ import jwt from "jsonwebtoken";
 export const isValidPassword = async (userpass, password) => {
   return await bcrypt.compareSync(String(password), String(userpass));
 };
-export const signToken = async (id) => {
-  return await jwt.sign({ id }, process.env.JWT_SECRET, {
+export const signToken = async (user) => {
+  return await jwt.sign({ user }, process.env.JWT_SECRET, {
     expiresIn: 86400, // 24 hours
   });
 };

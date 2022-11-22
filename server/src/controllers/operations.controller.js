@@ -7,6 +7,7 @@ import { operationsDao } from "./dao.js";
 
 export const getOperations = async (req, res) => {
   const { id } = req.decoded;
+  console.log(req.headers['Authorization'], 'hola');
   try {
     if (validate(id)) {
       const operations = await operationsDao.getOperations(id);

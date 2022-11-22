@@ -1,5 +1,5 @@
 import { Operation } from "../models/Operation.js";
-
+import {User} from "../models/User.js"
 export const operationsDao = {
     getOperations: async (id) => {
         const operations = await Operation.findAll({
@@ -30,4 +30,8 @@ export const operationsDao = {
         })
         return operation;
     }
+}
+
+export const usersDao = {
+    
 }

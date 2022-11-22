@@ -17,7 +17,8 @@ export const login = async (req, res) => {
           let _user = user.toJSON();
           const passwordValidation = isValidPassword(_user.password, password);
           if (passwordValidation) {
-            const token =  await signToken(_user.id);
+            let token =  await signToken(_user.id);
+            token = `Bearer ${token}`;
             res.status(200).json({
               message: "Login successful",
               token: token,
@@ -54,8 +55,10 @@ export const creeateUser = async (req, res) => {
   }
 };
 export const auth = async (req, res, next) => {
-  const token = req.headers["Authorization"] || req.headers["authorization"];
+  let token = req.headers["Authorization"] || req.headers["authorization"];
+
   if (token) {
+    token = token.split(" ")[1];
     jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
       if (err) {
         res.send({ error: "Invalid token" });

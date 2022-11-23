@@ -68,7 +68,7 @@ export const creeateUser = async (req, res) => {
 };
 export const auth = async (req, res, next) => {
   let token = req.headers["Authorization"] || req.headers["authorization"];
-  token = token.split(" ")[1];
+  if(token) token = token.split(" ")[1];
 try{
   const decoded = await jwt.verify(token, process.env.JWT_SECRET);
   if (decoded) {

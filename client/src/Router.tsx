@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Auth from "./context/Auth";
 import Layout from "./Layout";
 import Create from "./pages/Create";
 import Edit from "./pages/Edit";
@@ -14,13 +15,13 @@ function Router() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Layout />}>
-            <Route index element={<Home />} />
+            <Route index element={<Auth><Home /></Auth>} />
           </Route>
           <Route path="/create" element={<Layout />}>
-            <Route index element={<Create />} />
+            <Route index element={<Auth><Create /></Auth>} />
           </Route>
           <Route path="/edit/:id" element={<Layout />}>
-            <Route index element={<Edit />} />
+            <Route index element={<Auth><Edit /></Auth>} />
           </Route>
 
           {/* 

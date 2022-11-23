@@ -10,15 +10,17 @@ interface LoginValues {
   email: String,
   password: String,
 }
+
 const UserProvider = ({ children } : any) => {
   const [user, setUser] = useState(null);
   useEffect(() => {
     getData();
   }, []);
 
-  const logout = () => {
+  const logout = async () => {
     sessionStorage.clear();
     setUser(null);
+    
   };
   const register = async (values: RegisterValues, actions : any) => {
     try {

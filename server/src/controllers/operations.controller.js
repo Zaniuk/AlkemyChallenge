@@ -6,8 +6,7 @@ import jwt from "jsonwebtoken";
 import { operationsDao } from "./dao.js";
 
 export const getOperations = async (req, res) => {
-  const { id } = req.decoded;
-  console.log(req.headers['Authorization'], 'hola');
+  const { id } = req.decoded.user;
   try {
     if (validate(id)) {
       const operations = await operationsDao.getOperations(id);
@@ -26,7 +25,9 @@ export const getOperations = async (req, res) => {
 
 export const createOperation = async (req, res) => {
   const { concept, amount, type, date } = req.body;
-  const { id } = req.decoded;
+  const { id } = req.decoded.user;
+  
+  
   if (concept && amount && type && date && validate(id)) {
     try {
       const operation = await operationsDao.createOperation({
@@ -39,10 +40,10 @@ export const createOperation = async (req, res) => {
       });
       res.send(operation);
     } catch (error) {
-      res.send({error} );
+      res.status(500).send({error} );
     }
   } else {
-    res.send({ error: "Please fill all fields" });
+    res.status(400).send({ error: "Please fill all fields" });
   }
 };
 

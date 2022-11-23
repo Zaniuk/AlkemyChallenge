@@ -1,4 +1,4 @@
-import React, { createContext, useCallback, useEffect, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import httpService from "../services/httpService";
 export const UserContext = createContext(null);
 interface RegisterValues  {
@@ -11,7 +11,6 @@ interface LoginValues {
   password: String,
 }
 const UserProvider = ({ children } : any) => {
-  const [isAdmin, setIsAdmin] = useState(false);
   const [user, setUser] = useState(null);
   useEffect(() => {
     getData();
@@ -19,7 +18,6 @@ const UserProvider = ({ children } : any) => {
 
   const logout = () => {
     sessionStorage.clear();
-    setIsAdmin(false);
     setUser(null);
   };
   const register = async (values: RegisterValues, actions : any) => {
@@ -30,9 +28,6 @@ const UserProvider = ({ children } : any) => {
         password: values.password,
       });
       setUser(req.data.user);
-      if (req.data.user.roleId === 1) {
-        setIsAdmin(true);
-      }
     } catch (e : any) {
       if (e.response.data === "User already exist") {
         actions.setErrors({ email: "This email is already registered" });
@@ -40,30 +35,23 @@ const UserProvider = ({ children } : any) => {
       console.error(e.response.data, "error");
     }
   };
-  const login = async (values : LoginValues, actions : any) => {
+  const login = async (values : LoginValues) => {
     try {
-      const req = await httpService.post("/auth/login", values);
-      sessionStorage.setItem("token", req.data.Authorization);
-      if (req.data.user.roleId === 1) {
-        setIsAdmin(true);
-      }
+      const req = await httpService.post("/users/login", values);
+      sessionStorage.setItem("token", req.data.token);
       setUser(req.data.user);
+      if(req.data.token){
+
+      }
     } catch (e : any) {
       console.log(e.response.data);
-      if (e.response.data === "Email not found") {
-        actions.setErrors({ email: "Email not found" });
-      } else {
-        actions.setErrors({ password: "Password is incorrect" });
-      }
     }
   };
   const getData = async () => {
     try {
       const { data } = await httpService.get("/auth/me");
-      if (data.user.roleId === 1) {
-        setIsAdmin(true);
-      }
       setUser(data.user);
+      // console.log(data);
     } catch (e) {
       console.log(e);
     }
@@ -73,8 +61,6 @@ const UserProvider = ({ children } : any) => {
     <UserContext.Provider
     // @ts-ignore
       value={{
-        isAdmin,
-        setIsAdmin,
         user,
         setUser,
         logout,

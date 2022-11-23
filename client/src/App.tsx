@@ -1,15 +1,9 @@
-import { Box, Typography } from '@mui/material';
 import React from 'react';
+import Router from './Router';
 
 function App() {
   return (
-    <div className="App">
-      <Box>
-        <Typography>
-          Hello World
-        </Typography>
-      </Box>
-    </div>
+    <Router/>
   );
 }
 

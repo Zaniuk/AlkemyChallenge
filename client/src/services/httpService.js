@@ -3,15 +3,15 @@ import axios from "axios"
 axios.interceptors.request.use(
     function (config) {
 
-        config.headers.Authorization = `Bearer ${sessionStorage.getItem('token')}`
-        config.baseURL = `http://localhost:5000`
+        config.headers.Authorization = sessionStorage.getItem("token")
+        config.baseURL = `http://localhost`
         return config
     },
     function (error) {
         return Promise.reject(error);
     }
 )
-
+//eslint-disable-next-line
 export default {
     get: axios.get,
     post: axios.post,

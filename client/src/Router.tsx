@@ -1,6 +1,5 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import UserProvider from "./context/UserProvider";
 import Layout from "./Layout";
 import Create from "./pages/Create";
 import Edit from "./pages/Edit";
@@ -11,7 +10,7 @@ import Register from "./pages/Register";
 
 function Router() {
   return (
-    <UserProvider>
+    
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Layout />}>
@@ -39,7 +38,7 @@ function Router() {
           </Route>
         </Routes>
       </BrowserRouter>
-    </UserProvider>
+    
   );
 }
 

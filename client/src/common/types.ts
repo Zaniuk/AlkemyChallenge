@@ -1,8 +1,8 @@
-enum OperationConcept {
+enum OperationType {
     income,
     outcome
 }
-enum OperationType {
+enum OperationConcept {
     transfer,
     payment,
     salary,

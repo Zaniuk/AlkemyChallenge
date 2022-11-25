@@ -3,17 +3,20 @@ enum OperationType {
     outcome
 }
 enum OperationConcept {
-    transfer,
-    payment,
     salary,
-    othe
+    entertainment,
+    services, 
+    market,
+    shopping,
+    others
+
 }
 export interface Operation {
     amount: number;
     date: string;
     description: string;
     id: string;
-    type: string;
+    type: OperationType;
     concept: OperationConcept;
 }
 

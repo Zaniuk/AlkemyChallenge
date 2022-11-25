@@ -1,37 +1,50 @@
-
-import React from 'react'
-import { useFormik } from 'formik';
-import * as yup from 'yup';
-import { Box, Button, TextField } from '@mui/material';
-import TypeSelector from './TypeSelector';
-import httpService from '../../services/httpService';
+import React from "react";
+import { useFormik } from "formik";
+import * as yup from "yup";
+import { Box, Button, TextField } from "@mui/material";
+import TypeSelector from "./TypeSelector";
+import httpService from "../../services/httpService";
+import ConceptSelector from "./ConceptSelector";
+import { alert } from "../../common/alerts";
+import { useNavigate } from "react-router-dom";
 function CreateForm() {
+  const navigate = useNavigate()
   const validationSchema = yup.object({
-    amount: yup.number().required('Amount is required'),
-    concept: yup.string().required('concept is required'),
-    type: yup.string().required('Type is required'),
-    date: yup.date().max(new Date(), 'La fecha no puede ser posterior a la de hoy').required('Date is required'),
+    amount: yup.number().required("Amount is required"),
+    concept: yup.string().required("concept is required"),
+    type: yup.string().required("Type is required"),
+    date: yup
+      .date()
+      .max(new Date(), "La fecha no puede ser posterior a la de hoy")
+      .required("Date is required"),
   });
 
   const formik = useFormik({
     initialValues: {
       amount: 0,
-      concept: '',
-      type: '',
+      concept: "",
+      type: "",
       date: new Date().toISOString().slice(0, 10),
-    }, validationSchema, onSubmit: async (values) => {
+    },
+    validationSchema,
+    onSubmit: async (values) => {
       values.amount = Number(values.amount);
-      const res = await httpService.post('/operations', values);
-      console.log(res);
-    }
-    });
+      const res = await httpService.post("/operations", values);
+      console.log(res.status)
+      if (res.status === 200) {
+        alert("Exito", "Operacion creada con exito", "success")
+        navigate("/")
+      } else{
+        alert("Error", "Error al crear la operacion", "error");
+      }
+    },
+  });
   return (
     <Box
       sx={{
         maxWidth: 500,
-        margin: 'auto',
+        margin: "auto",
       }}
-
     >
       <form onSubmit={formik.handleSubmit}>
         <TextField
@@ -47,13 +60,21 @@ function CreateForm() {
         <TypeSelector
           id="type"
           name="type"
-          label="Type"
+          label="Tipo de operación"
           value={formik.values.type}
           onChange={formik.handleChange}
           error={formik.touched.type && Boolean(formik.errors.type)}
-          
         />
-
+        {formik.values.type === "outcome" && (
+          <ConceptSelector
+            id="concept"
+            name="concept"
+            label="Concepto"
+            value={formik.values.concept}
+            onChange={formik.handleChange}
+            error={formik.touched.concept && Boolean(formik.errors.concept)}
+          />
+        )}
         <TextField
           fullWidth
           id="date"
@@ -67,10 +88,9 @@ function CreateForm() {
         <Button color="primary" variant="contained" fullWidth type="submit">
           Submit
         </Button>
-
       </form>
     </Box>
-  )
+  );
 }
 
-export default CreateForm
+export default CreateForm;
